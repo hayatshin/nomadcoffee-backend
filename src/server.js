@@ -9,7 +9,11 @@ const PORT = process.env.PORT;
 const server = new ApolloServer({
   resolvers,
   typeDefs,
-  playground: true,
+  plugins: [
+    process.env.NODE_ENV === "production"
+      ? ApolloServerPluginLandingPageProductionDefault({ footer: false })
+      : ApolloServerPluginLandingPageLocalDefault({ footer: false }),
+  ],
   context: async ({ req }) => {
     return {
       loggedInUser: await getUser(req.headers.token),
