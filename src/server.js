@@ -16,6 +16,17 @@ const server = new ApolloServer({
       loggedInUser: await getUser(req.headers.token),
     };
   },
+  subscriptions: {
+    onConnect: async ({ token }) => {
+      if (!token) {
+        throw new Error("You can't listen without a token");
+      }
+      const loggedInUser = await getUser(token);
+      return {
+        loggedInUser,
+      };
+    },
+  },
 });
 
 const app = express();
