@@ -2,10 +2,12 @@ import client from "../../client";
 
 export default {
   Query: {
-    seeCoffeeShop: (_, { id }) =>
-      client.coffeeShop.findUnique({
+    seeCoffeeShop: (_, { keyword }) =>
+      client.coffeeShop.findMany({
         where: {
-          id,
+          name: {
+            startsWith: keyword,
+          },
         },
       }),
   },

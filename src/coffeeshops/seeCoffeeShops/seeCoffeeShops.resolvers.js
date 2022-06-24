@@ -2,15 +2,10 @@ import client from "../../client";
 
 export default {
   Query: {
-    seeCoffeeShops: (_, { keyword, page }) =>
+    seeCoffeeShops: (_, { offset }) =>
       client.coffeeShop.findMany({
-        take: 5,
-        skip: (page - 1) * 5,
-        where: {
-          name: {
-            startsWith: keyword,
-          },
-        },
+        take: 4,
+        skip: offset,
       }),
   },
 };

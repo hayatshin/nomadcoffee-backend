@@ -7,20 +7,20 @@ export default {
     createCoffeeShop: protectedResolver(
       async (
         _,
-        { name, latitude, longitude, photos, categories },
+        { name, latitude, longitude, categories },
         { loggedInUser }
       ) => {
-        let uploadCafePhotoURL = null;
-        if (photos) {
-          const { filename, createReadStream } = await photos;
-          const newFilename = `${loggedInUser.id}-${Date.now()}-${filename}`;
-          const readStream = createReadStream();
-          const writeStream = createWriteStream(
-            `${process.cwd()}/cafe/${newFilename}`
-          );
-          readStream.pipe(writeStream);
-          uploadCafePhotoURL = `http://localhost:4000/cafe/${newFilename}`;
-        }
+        // let uploadCafePhotoURL = null;
+        // if (photos) {
+        //   const { filename, createReadStream } = await photos;
+        //   const newFilename = `${loggedInUser.id}-${Date.now()}-${filename}`;
+        //   const readStream = createReadStream();
+        //   const writeStream = createWriteStream(
+        //     `${process.cwd()}/cafe/${newFilename}`
+        //   );
+        //   readStream.pipe(writeStream);
+        //   uploadCafePhotoURL = `http://localhost:4000/cafe/${newFilename}`;
+        // }
         const existingCafe = await client.coffeeShop.findFirst({
           where: {
             AND: [{ name }, { latitude }, { longitude }],
@@ -42,11 +42,11 @@ export default {
                 id: loggedInUser.id,
               },
             },
-            photos: {
-              create: {
-                url: uploadCafePhotoURL,
-              },
-            },
+            // photos: {
+            //   create: {
+            //     url: uploadCafePhotoURL,
+            //   },
+            // },
             categories: {
               connectOrCreate: {
                 where: {

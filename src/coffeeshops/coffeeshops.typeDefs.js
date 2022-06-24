@@ -13,7 +13,7 @@ export default gql`
     latitude: String!
     longitude: String!
     user: User
-    photos: [CoffeeShopPhoto]
+    photo: String
     categories: [Category]
   }
 

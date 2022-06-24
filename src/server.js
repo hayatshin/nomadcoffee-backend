@@ -31,9 +31,8 @@ const server = new ApolloServer({
 
 const app = express();
 app.use(logger("tiny"));
+app.use("/static", express.static("avatar"));
 server.applyMiddleware({ app });
-app.use("/cafe", express.static("cafe"));
-app.use("/avatar", express.static("avatar"));
 app.listen({ port: PORT }, () => {
   console.log(`🚀Server is running on http://localhost:${PORT}/graphql ✅`);
 });

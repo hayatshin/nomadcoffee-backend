@@ -1,8 +1,9 @@
-import fs from "fs";
+import { createWriteStream } from "fs";
 import client from "../../client";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { protectedResolver } from "../users.utils";
+import { uploadPhoto } from "../../shared/shared.utils";
 
 export default {
   Mutation: {
@@ -14,14 +15,20 @@ export default {
       ) => {
         let uploadAvatarURL = null;
         if (avatarURL) {
-          const { filename, createReadStream } = await avatarURL;
-          const newFilename = `${loggedInUser.id}-${Date.now()}-${filename}`;
-          const readStream = createReadStream();
-          const writeStream = fs.createWriteStream(
-            process.cwd() + "/avatar/" + newFilename
+          uploadAvatarURL = await uploadPhoto(
+            avatarURL,
+            loggedInUser.id,
+            "avatar"
           );
-          readStream.pipe(writeStream);
-          uploadAvatarURL = `http://localhost:4000/static/${newFilename}`;
+          // const { filename, createReadStream } = await avatarURL;
+          // const newFilename = `${loggedInUser.id}-${Date.now()}-${filename}`;
+          // const readStream = createReadStream();
+          // const writeStream = createWriteStream(
+          //   process.cwd() + "/avatar/" + newFilename
+          // );
+          // console.log(process.cwd() + "/avatar/" + newFilename);
+          // readStream.pipe(writeStream);
+          // uploadAvatarURL = `http://localhost:4000/static/${newFilename}`;
         }
         let uglyPassword = null;
         if (newPassword) {
