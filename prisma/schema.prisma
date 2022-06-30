@@ -27,7 +27,6 @@ model User {
 model CoffeeShopPhoto {
   id Int @id @default(autoincrement())
   url String
-  shop CoffeeShop @relation(fields: [coffeeshopId], references: [id])
   coffeeshopId Int
 }
 
@@ -39,8 +38,6 @@ model CoffeeShop {
   user User @relation(fields: [userId], references: [id])
   userId Int
   photo String?
-  photos CoffeeShopPhoto[]
-  photosId String?
   categories Category[]
 }
 

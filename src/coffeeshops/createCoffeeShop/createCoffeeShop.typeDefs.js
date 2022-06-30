@@ -11,6 +11,7 @@ export default gql`
       latitude: String!
       longitude: String!
       categories: String
+      photo: Upload
     ): createCoffeeShopResult!
   }
 `;
